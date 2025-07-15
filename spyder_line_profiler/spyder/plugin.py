@@ -13,7 +13,7 @@ Spyder Line Profiler Plugin.
 
 # Third-party imports
 import qtawesome as qta
-from qtpy.QtCore import Signal
+from qtpy.QtCore import Qt, Signal
 
 # Spyder imports
 from spyder.api.plugins import Plugins, SpyderDockablePlugin
@@ -105,7 +105,8 @@ class SpyderLineProfiler(SpyderDockablePlugin, RunExecutor):
                 add_to_menu={
                     "menu": ApplicationMenus.Run,
                     "section": RunMenuSections.RunInExecutors
-                }
+                },
+                shortcut_widget_context=Qt.ApplicationShortcut,
             )
     @on_plugin_available(plugin=Plugins.Editor)
     def on_editor_available(self):
