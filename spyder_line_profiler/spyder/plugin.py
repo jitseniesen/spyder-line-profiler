@@ -20,9 +20,8 @@ from spyder.api.plugins import Plugins, SpyderDockablePlugin
 from spyder.api.translations import get_translation
 from spyder.api.plugin_registration.decorators import (
     on_plugin_available, on_plugin_teardown)
+from spyder.plugins.ipythonconsole.widgets.run_conf import IPythonConfigOptions
 from spyder.plugins.mainmenu.api import ApplicationMenus, RunMenuSections
-from spyder.plugins.profiler.widgets.run_conf import (
-    ProfilerPyConfigurationGroup)
 from spyder.plugins.run.api import RunContext, RunExecutor, run_execute
 from spyder.utils.icon_manager import ima
 
@@ -82,7 +81,7 @@ class SpyderLineProfiler(SpyderDockablePlugin, RunExecutor):
                     'name': 'File'
                 },
                 'output_formats': [],
-                'configuration_widget': ProfilerPyConfigurationGroup,
+                'configuration_widget': IPythonConfigOptions,
                 'requires_cwd': True,
                 'priority': 7
             }
@@ -161,6 +160,9 @@ class SpyderLineProfiler(SpyderDockablePlugin, RunExecutor):
         filename = run_input['path']
 
         wdir = cwd_opts['path']
-        args = params['args']
+        if params['python_args_enabled']:
+            args = params['python_args']
+        else:
+            args = ''
 
         self.get_widget().analyze(filename, wdir=wdir, args=args)
